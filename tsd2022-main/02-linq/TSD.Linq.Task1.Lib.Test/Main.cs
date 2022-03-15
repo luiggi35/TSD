@@ -115,6 +115,118 @@ namespace TSD.Linq.Task1.Lib
 
 
         }
+
+        [Test]
+
+        public async Task getTask8()
+        {
+            GoldClient client = new GoldClient();
+            DateTime begDate19 = new DateTime(2019, 01, 01);
+            DateTime endDate19 = new DateTime(2019, 12, 31);
+            DateTime begDate20 = new DateTime(2020, 01, 01);
+            DateTime endDate20 = new DateTime(2020, 12, 31);
+            DateTime begDate21 = new DateTime(2021, 01, 01);
+            DateTime endDate21 = new DateTime(2021, 12, 31);
+
+            List<GoldPrice> listePrices19 = await client.GetGoldPrices(begDate19, endDate19);
+            List<GoldPrice> listePrices20 = await client.GetGoldPrices(begDate20, endDate20);
+            List<GoldPrice> listePrices21 = await client.GetGoldPrices(begDate21, endDate21);
+
+            
+
+
+
+            IEnumerable<double> allPrices2019 =
+                from price in listePrices19
+                select price.Price;
+            
+            double averagePrices2019 = allPrices2019.Average();
+            Console.WriteLine(averagePrices2019);
+
+
+            IEnumerable<double> allPrices2020 =
+                from price in listePrices20
+                select price.Price;
+
+            double averagePrices2020 = allPrices2020.Average();
+            Console.WriteLine(averagePrices2020);
+
+
+            IEnumerable<double> allPrices2021 =
+                from price in listePrices21
+                select price.Price;
+
+            double averagePrices2021 = allPrices2021.Average();
+            Console.WriteLine(averagePrices2021);
+        }
+
+        [Test]
+        public async Task getTask9()
+        {
+            GoldClient client = new GoldClient();
+            DateTime begDate19 = new DateTime(2019, 01, 01);
+            DateTime endDate19 = new DateTime(2019, 12, 31);
+            DateTime begDate20 = new DateTime(2020, 01, 01);
+            DateTime endDate20 = new DateTime(2020, 12, 31);
+            DateTime begDate21 = new DateTime(2021, 01, 01);
+            DateTime endDate21 = new DateTime(2021, 12, 31);
+            DateTime begDate22 = new DateTime(2022, 01, 01);
+            DateTime endDate22 = new DateTime(2022, 03, 15);
+
+            List<GoldPrice> listePrices19 = await client.GetGoldPrices(begDate19, endDate19);
+            List<GoldPrice> listePrices20 = await client.GetGoldPrices(begDate20, endDate20);
+            List<GoldPrice> listePrices21 = await client.GetGoldPrices(begDate21, endDate21);
+            List<GoldPrice> listePrices22 = await client.GetGoldPrices(begDate22, endDate22);
+
+            //List<GoldPrice> listePrices19to22 = new List<GoldPrice>();
+
+            listePrices19.AddRange(listePrices19);
+            listePrices19.AddRange(listePrices20);
+            listePrices19.AddRange(listePrices21);
+            listePrices19.AddRange(listePrices22);
+
+            double minPrice19to22 = 
+                (from price in listePrices19
+                select price.Price).Min();
+
+            IEnumerable<GoldPrice> dateOfMinPrice19to2022 =
+                from item in listePrices19
+                 where item.Price == minPrice19to22
+                 select item;
+            List<GoldPrice> listMin = dateOfMinPrice19to2022.ToList();
+
+            GoldPrice dateOfPriceMin = listMin[0];
+
+            IEnumerable<GoldPrice> allPrices = 
+                from price in listePrices19
+                orderby price.Price descending
+                where price.Date.CompareTo(dateOfPriceMin.Date) > 0
+                select price;
+
+            List<GoldPrice> listeMax = allPrices.ToList();
+
+            GoldPrice maxDateOfPriceMax = listeMax[0];
+
+            System.Console.WriteLine("best buy gold");
+            System.Console.WriteLine();
+            System.Console.WriteLine("Date : " + dateOfPriceMin.Date.ToString());
+            System.Console.WriteLine("Price : " + dateOfPriceMin.Price.ToString());
+            System.Console.WriteLine();
+            System.Console.WriteLine();
+            System.Console.WriteLine("best sell gold");
+            System.Console.WriteLine();
+            System.Console.WriteLine("Date : " + maxDateOfPriceMax.Date.ToString());
+            System.Console.WriteLine("Price : " + maxDateOfPriceMax.Price.ToString());
+            System.Console.WriteLine();
+            System.Console.WriteLine();
+            System.Console.WriteLine("benefit : " + (maxDateOfPriceMax.Price - dateOfPriceMin.Price).ToString());
+
+
+
+
+
+
+        }
     }
 }
 
