@@ -5,6 +5,7 @@ using TSD.Linq.Task1.Lib.Model;
 using System.Threading.Tasks;
 using System.Linq;
 using NUnit.Framework;
+using System.Xml.Linq;
 
 
 namespace TSD.Linq.Task1.Lib
@@ -227,6 +228,60 @@ namespace TSD.Linq.Task1.Lib
 
 
         }
+
+        [Test]
+        public async Task ToXMLinit()
+        {
+            GoldClient client = new GoldClient();
+            List<GoldPrice> prices = await client.GetGoldPrices(new DateTime(2019, 01, 01), new DateTime(2019, 12, 31));
+            List<GoldPrice> prices2020 = await client.GetGoldPrices(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31));
+            List<GoldPrice> prices2021 = await client.GetGoldPrices(new DateTime(2021, 01, 01), new DateTime(2021, 12, 31));
+            List<GoldPrice> prices2022 = await client.GetGoldPrices(new DateTime(2022, 01, 01), new DateTime(2022, 03, 15));
+
+            prices.AddRange(prices2020);
+            prices.AddRange(prices2021);
+            prices.AddRange(prices2022);
+            await ToXML(prices);
+        }
+        
+        public async Task ToXML(List<GoldPrice> listPrices)
+        {
+
+            XDocument docXmlPrices = new XDocument(
+                new XComment("here_is_the_price_list"),
+                new XElement("list_of_prices_from_2019_to_2022",
+                    from item in listPrices
+                    select new XElement("Gold",new XElement("Date", item.Date),new XElement("Price", item.Price))
+                
+                )
+
+                );
+
+            docXmlPrices.Declaration = new XDeclaration("1.0", "utf-8", "true");
+
+            docXmlPrices.Save(@"C:\\Users\\louis\\OneDrive\\Documents\\erasmus\\techofsoft\\listOfPrices.xml");
+
+            
+
+        }
+        
+        [Test]
+        public async Task XMLtoConsInit()
+        {
+            XDocument doc = XDocument.Load(@"C:\\Users\\louis\\OneDrive\\Documents\\erasmus\\techofsoft\\listOfPrices.xml");
+            await XMLtoCons(doc);
+        }
+
+        public async Task XMLtoCons(XDocument doc)
+        {
+            foreach (XElement price in doc.Root.Elements())
+            {
+                Console.WriteLine("Date : {0}  Price : {1}",
+                                    price.Element("Date").Value,
+                                    price.Element("Price").Value);
+            }
+        }
+
     }
 }
 
