@@ -1,0 +1,177 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            
+            <RowDefinition Height="45" />
+            <RowDefinition Height="225" />
+            <RowDefinition Height="45" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <TextBlock Grid.Column="0" Text="ID" HorizontalAlignment="Center" VerticalAlignment="Center">ID</TextBlock>
+                <TextBlock Grid.Column="1" Text="Title" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="IsRead" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+                <ListBox Name="lBooks" >
+
+
+                    <ListBox.ItemTemplate>
+
+
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+
+                                
+
+                                <TextBlock Grid.Column="0" Text="{Binding Id}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="15"></TextBlock>
+                                <TextBlock Grid.Column="1" Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="15"/>
+                                <TextBlock Grid.Column="2" Text="{Binding IsRead}" HorizontalAlignment="Center" VerticalAlignment="Center"  Padding="15"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </Grid>
+
+            
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                
+
+                
+
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <TextBlock Text="ID"></TextBlock>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <TextBlock Text="Title"></TextBlock>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <TextBlock Text="Author"></TextBlock>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <TextBlock Text="Year"></TextBlock>
+                </Grid>
+                <Grid Grid.Row="5" Grid.Column="0">
+                    <TextBlock Text="Format"></TextBlock>
+                </Grid>
+
+
+                <Grid Grid.Row="0" Grid.Column="1">
+                   
+                    <TextBlock Name="newId" Text="{Binding ElementName=lBooks, Path=SelectedItem.Id}"></TextBlock>
+                    
+                   
+                </Grid>
+                
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <StackPanel>
+                        <TextBox Text="{Binding ElementName=lBooks, Path=SelectedItem.Title}" Name="newTitle"></TextBox>
+                    </StackPanel>
+                    
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <StackPanel>
+                        <TextBox Text="{Binding ElementName=lBooks, Path=SelectedItem.Author}" Name="newAuthor"></TextBox>
+                    </StackPanel>
+                    
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="1">
+                    <StackPanel>
+                        <TextBox Text="{Binding ElementName=lBooks, Path=SelectedItem.Year}" Name="newYear"></TextBox>
+                    </StackPanel>
+                    
+                </Grid>
+                <Grid Grid.Row="4" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Grid Grid.Column="0">
+                        <CheckBox IsChecked="{Binding ElementName=lBooks, Path=SelectedItem.IsRead}" Name="newIsRead"></CheckBox>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <TextBlock>IsRead</TextBlock>
+                    </Grid>
+                    
+                    
+                </Grid>
+                <Grid Grid.Row="5" Grid.Column="1">
+                    <StackPanel>
+                        <TextBox Text="{Binding ElementName=lBooks, Path=SelectedItem.Format}" Name="newFormat"></TextBox>
+                    </StackPanel>
+                    
+                </Grid>
+
+
+
+
+
+
+            </Grid>
+
+            
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Button Name="btnAdd" Content="Add a book" Click="Button_Add_Book"></Button>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Button Name="btnRem" Content="Remove a book" Click="Button_Remove_Book"></Button>
+            </Grid>
+            
+            
+        </Grid>
+
+        
+
+
+
+        </Grid>
+</Window>
